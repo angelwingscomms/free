@@ -14,7 +14,7 @@
 		TextArea,
 		TextInput
 	} from 'carbon-components-svelte';
-	import Edit from 'carbon-icons-svelte/lib/Edit.svelte';
+	import Save from 'carbon-icons-svelte/lib/Save.svelte';
 	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 	import { createEventDispatcher } from 'svelte';
 	let name = $page.data.name,
@@ -84,7 +84,7 @@
 	/>
 </FluidForm>
 <ButtonSet stacked>
-	<Button disabled={edit_loading} icon={edit_loading ? InlineLoading : Edit} on:click={save}
+	<Button disabled={edit_loading} icon={edit_loading ? InlineLoading : Save} on:click={save}
 		>Save</Button
 	>
 	<Button disabled={delete_loading} icon={delete_loading ? InlineLoading : TrashCan} on:click={del}

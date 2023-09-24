@@ -6,7 +6,6 @@
 	import { isSideNavOpen } from './store';
 
 	import A2HsLink from './A2HSLink.svelte';
-	import { onMount } from 'svelte';
 </script>
 
 <SideNav bind:isOpen={$isSideNavOpen}>

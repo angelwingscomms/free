@@ -61,17 +61,19 @@
 	</div>
 {/if}
 
-{#if searched && results.length}
-	<SearchPagination
-		{totalItems}
-		on:update={({ detail }) => {
-			page_update(detail.page);
-		}}
-		{results}
-		{page}
-	/>
-{:else}
-	<div class="line">No results</div>
+{#if searched}
+	{#if results.length}
+		<SearchPagination
+			{totalItems}
+			on:update={({ detail }) => {
+				page_update(detail.page);
+			}}
+			{results}
+			{page}
+		/>
+	{:else}
+		<div class="line">No results</div>
+	{/if}
 {/if}
 
 <style lang="sass">

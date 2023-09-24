@@ -36,7 +36,7 @@
 </script>
 
 <div>
-	<h5>Suggest improvements for this platform or make any complaints</h5>
+	<h5>Suggest improvements for this platform</h5>
 
 	<TextArea
 		invalidText={text_invalid_text}
