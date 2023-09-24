@@ -78,5 +78,5 @@ export const search = async ({
 		r.value = slim(r.value, true) as SearchDocumentValue;
 		return r;
 	});
-	return { ...res, page };
+	return { ...res, page,  };
 };

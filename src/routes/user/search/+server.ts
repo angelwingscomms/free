@@ -15,7 +15,6 @@ export const POST: RequestHandler = async ({ request }) => {
 			query: '*',
 			RETURN: ['name']
 		});
-		console.log(res);
 		return json(res);
 	} catch (e) {
 		throw handle_server_error(request.url, e);

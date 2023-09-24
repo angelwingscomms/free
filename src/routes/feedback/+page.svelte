@@ -10,7 +10,7 @@
 	const submitFeedback = async () => {
 		loading = true;
 		try {
-			await axios.post('/feedback', { feedbackText });
+			await axios.post('/feedback', { t: feedbackText });
 			notify('Feedback submitted successfully.');
 			feedbackText = ''; // Clear the text area after submission if desired.
 		} catch (error: any) {
