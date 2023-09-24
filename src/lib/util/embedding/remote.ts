@@ -7,5 +7,5 @@ export const remote = async (body: string, b: boolean = false): Promise<number[]
 		body,
 		method: 'POST'
 	});
-	return b ? Buffer.from(await res.arrayBuffer()) : await res.json();
+	return b ? Buffer.from(await res.arrayBuffer()) : await res.json() as number[];
 };
