@@ -28,13 +28,13 @@
 
 	let search_input_ref: HTMLInputElement;
 	const get = async (page: number) => {
-		searched = true;
 		if (!text) return;
 		searched = true;
 		loading = true;
 		try {
 			const r = await axios.post(route, { text, page });
 			({ total: totalItems, documents: results } = r.data);
+			searched = true;
 		} catch (e: any) {
 			notify({
 				title: `User search error`,
@@ -71,7 +71,7 @@
 			{results}
 			{page}
 		/>
-	{:else}
+	{:else if !loading}
 		<div class="line">No results</div>
 	{/if}
 {/if}
