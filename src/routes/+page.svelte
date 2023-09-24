@@ -11,7 +11,7 @@
 			{#if $page.data.session?.user}
 				<Button href="/edit" icon={Edit}>Edit Profile</Button>
 			{:else}
-				<Button href="/auth">Add your profile</Button>
+				<Button href="/auth">Login</Button>
 			{/if}
 			<Search placeholder='Search users' route="/user/search" />
 		</div>
