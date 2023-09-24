@@ -3,7 +3,7 @@ import type { SearchOptions } from 'redis';
 import { client } from '.';
 import type { Filters } from '$lib/types/filter';
 import { slim } from '$lib/util/redis/shape/slim';
-import type { SearchDocument, SearchDocumentValue } from '$lib/types';
+import type { SearchDocument } from '$lib/types';
 export interface SearchParams {
 	index: string;
 	page: number | undefined;
@@ -69,8 +69,7 @@ export const search = async ({
 
 	const res = await client.ft.search(index, query, options);
 	res.documents = res.documents.map((r) => {
-		r.value = slim(r.value, true) as SearchDocumentValue;
-		return r;
-	}) as SearchDocument[];
+		return { ...r, value: slim(r.value, true) as unknown as SearchDocument };
+	}) as unknown as SearchDocument[];
 	return { ...res, page };
 };

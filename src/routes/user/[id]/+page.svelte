@@ -7,6 +7,6 @@
 
 <Row>
 	<Column>
-		<User name={data.name} html={data.html} id={data.id} />
+		<User similar={data.similar} name={data.name} html={data.html} id={data.id} />
 	</Column>
 </Row>

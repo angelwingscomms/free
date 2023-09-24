@@ -5,8 +5,8 @@
 	import Document from './Document.svelte';
 
 	export let page: number = 1,
-		total: number,
-		documents: SearchDocument[];
+		documents: SearchDocument[],
+		total = documents.length;
 
 	let loading = false;
 </script>

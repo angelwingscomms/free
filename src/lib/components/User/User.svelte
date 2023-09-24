@@ -4,8 +4,11 @@
 	import Edit from '$lib/components/User/Edit.svelte';
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
-	let edit_open = false;
-	export let name: string, html: string, id: string;
+	import type { SearchDocument } from '$lib/types';
+	import SearchPagination from '../Search/SearchPagination.svelte';
+	let edit_open = false,
+		similar_open = false;
+	export let name: string, html: string, id: string, similar: SearchDocument[];
 </script>
 
 <Modal modalHeading="Edit Profile" bind:open={edit_open} passiveModal>
@@ -16,6 +19,10 @@
 			invalidateAll();
 		}}
 	/>
+</Modal>
+
+<Modal modalHeading="Similar" bind:open={similar_open} passiveModal>
+	<SearchPagination documents={similar} />
 </Modal>
 
 <div class="all">

@@ -7,9 +7,11 @@
 	import User from '$lib/components/User/User.svelte';
 	import axios from 'axios';
 	import { notify } from '$lib/util/notify';
+	import type { SearchDocument } from '$lib/types';
 
 	let edit_open = false,
 		user_open = false,
+		similar: SearchDocument[],
 		name: string,
 		html: string,
 		id: string;
@@ -18,6 +20,7 @@
 		try {
 			const res = await axios.get(`/user/${_id}`);
 			({ name, html } = res.data);
+			({ data: similar } = await axios.get(`/user/${_id}/similar`));
 			id = _id;
 			user_open = true;
 		} catch (e) {
@@ -37,7 +40,7 @@
 {/if}
 
 <Modal modalHeading="User" bind:open={user_open} passiveModal>
-	<User {name} {html} {id} />
+	<User {similar} {name} {html} {id} />
 </Modal>
 
 <Row>
