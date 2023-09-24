@@ -15,7 +15,7 @@
 		placeholder: string,
 		total: number = 0;
 	let loading = false,
-		documents: SearchDocument<{ name: string }>[] = [],
+		documents: SearchDocument[] = [],
 		page: number = 1;
 
 	$: page_update(page);
@@ -68,6 +68,7 @@
 			on:update={({ detail }) => {
 				page_update(detail.page);
 			}}
+			on:click
 			{documents}
 			{page}
 		/>

@@ -24,7 +24,7 @@
 		edit_loading = false,
 		delete_loading = false;
 
-	const dispatch = createEventDispatcher<{ save: undefined }>();
+	const dispatch = createEventDispatcher<{ save: {name: string, html: string} }>();
 
 	const del = async () => {
 		if (delete_loading) return;
@@ -52,6 +52,7 @@
 			const html = await parse(payload.text as string);
 			payload.html = sanitize_string(html);
 			await axios.put(`/edit`, payload);
+			dispatch('save', {name, html: payload.html});
 			notify('Saved');
 		} catch (e: any) {
 			console.error('save error', e);
@@ -66,7 +67,6 @@
 				});
 			}
 		}
-		dispatch('save');
 		edit_loading = false;
 	};
 </script>
