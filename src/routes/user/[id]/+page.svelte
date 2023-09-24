@@ -3,12 +3,13 @@
 	import type { PageData } from './$types';
 	import EditIcon from 'carbon-icons-svelte/lib/Edit.svelte';
 	import Edit from '$lib/components/User/Edit.svelte';
+	import { invalidateAll } from '$app/navigation';
 	export let data: PageData;
 	let edit_open = false;
 </script>
 
 <Modal modalHeading="Edit Profile" bind:open={edit_open} passiveModal>
-	<Edit on:save={() => (edit_open = false)} />
+	<Edit on:save={() => {edit_open = false; invalidateAll()}} />
 </Modal>
 
 <Row>
