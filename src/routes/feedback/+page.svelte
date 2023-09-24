@@ -18,7 +18,7 @@
 			notify('Feedback submitted successfully.');
 			feedbackText = ''; // Clear the text area after submission if desired.
 		} catch (e: any) {
-			console.error('Submit feedback error', e);
+			console.error('Feedback submission error', e);
 			if (e === 'timeout') {
 				text_invalid_text = 'Use less text';
 				text_invalid = true;
