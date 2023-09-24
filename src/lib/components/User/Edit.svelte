@@ -71,7 +71,7 @@
 	};
 </script>
 
-<OnEnter on:enter={save} />
+<OnEnter ctrl on:enter={save} />
 
 <FluidForm>
 	<TextInput bind:value={name} labelText="Name" />
