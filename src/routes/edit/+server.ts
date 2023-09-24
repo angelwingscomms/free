@@ -7,7 +7,7 @@ import { float32_buffer } from '$lib/util/float32_buffer';
 import axios from 'axios';
 import { embed_endpoint } from '$lib/constants';
 import { remote } from '$lib/util/embedding/remote';
-import { embed_profile } from '$lib/util/user/embed_profile';
+import { embed_user } from '$lib/util/user/embed_user';
 
 export const DELETE: RequestHandler = async ({ request, locals }) => {
 	try {
@@ -40,11 +40,7 @@ export const PUT: RequestHandler = async ({ request, locals }) => {
 		for (const key of Object.keys(arg)) {
 			client.json.set(user.id, `$.${key}`, arg[key]);
 		}
-		client.json.set(
-			user.id,
-			'$.v',
-			await embed_profile(arg)
-		);
+		client.json.set(user.id, '$.v', await embed_user(arg));
 		return new Response(null, { status: 200 });
 	} catch (e) {
 		throw handle_server_error(request.url, e);
