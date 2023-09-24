@@ -7,6 +7,7 @@ import { float32_buffer } from '$lib/util/float32_buffer';
 import axios from 'axios';
 import { embed_endpoint } from '$lib/constants';
 import { remote } from '$lib/util/embedding/remote';
+import { embed_profile } from '$lib/util/user/embed_profile';
 
 export const DELETE: RequestHandler = async ({ request, locals }) => {
 	try {
@@ -42,7 +43,7 @@ export const PUT: RequestHandler = async ({ request, locals }) => {
 		client.json.set(
 			user.id,
 			'$.v',
-			await remote(`${arg.name ? `${arg.name}\n\n` : ''}${arg.text ?? ''}`)
+			await embed_profile(arg)
 		);
 		return new Response(null, { status: 200 });
 	} catch (e) {
