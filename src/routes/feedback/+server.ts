@@ -7,6 +7,7 @@ import type { RequestHandler } from './$types';
 export const POST: RequestHandler = async ({ request }) => {
 	try {
 		const { t } = await request.json();
+		console.log('t', t)
 		await client.json.set(
 			feedback_id_prefix.concat((await client.incr('last_feedback_id')).toString()),
 			'$',
