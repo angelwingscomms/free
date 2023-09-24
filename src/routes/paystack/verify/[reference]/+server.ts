@@ -9,7 +9,7 @@ export const GET: RequestHandler = async ({ params }) => {
 	const { data } = await paystack
 		.get<VerificationResponse<Args>>(`/verify/${params.reference}`)
 		.catch((e) => {
-			console.log('paystack payment verification request error', e);
+			console.error('paystack payment verification request error', e);
 			throw error(500, 'We experienced an error trying to verify your payment');
 		});
 	if (data.status) {
@@ -25,7 +25,7 @@ export const GET: RequestHandler = async ({ params }) => {
 			return text('');
 		}
 	} else {
-		console.log('paystack payment verification status: false', data);
+		console.info('paystack payment verification status: false', data);
 		throw error(500, 'Payment verification failed'); //TODO
 	}
 };

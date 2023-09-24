@@ -10,7 +10,6 @@ export const github = async (arg: SignInArg) => {
 	const id = build_id(arg.profile?.id as string);
 	const v = await embed_user({ name: arg.profile?.name as undefined });
 	if (await client.exists(id)) {
-		console.log('exists');
 		await client.json.set(id, '$.login', arg.profile?.login as string);
 		await client.json.set(id, '$.name', arg.profile?.name as string);
 		await client.json.set(id, '$.email', escape_email(arg.profile?.email as string));

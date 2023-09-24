@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TextInput, Button, Row, Loading, Modal, InlineLoading } from 'carbon-components-svelte';
+	import { TextInput, Button, InlineLoading } from 'carbon-components-svelte';
 	import Search from 'carbon-icons-svelte/lib/Search.svelte';
 	import type { SearchDocument } from '$lib/types';
 	import axios from 'axios';
@@ -13,9 +13,9 @@
 		text = '',
 		route: string,
 		placeholder: string,
-		totalItems: number = 0;
+		total: number = 0;
 	let loading = false,
-		results: SearchDocument<{ name: string }>[] = [],
+		documents: SearchDocument<{ name: string }>[] = [],
 		page: number = 1;
 
 	$: page_update(page);
@@ -33,7 +33,7 @@
 		loading = true;
 		try {
 			const r = await axios.post(route, { text, page });
-			({ total: totalItems, documents: results } = r.data);
+			({ total, documents, page } = r.data);
 			searched = true;
 		} catch (e: any) {
 			notify({
@@ -62,13 +62,13 @@
 {/if}
 
 {#if searched}
-	{#if results.length}
+	{#if documents.length}
 		<SearchPagination
-			{totalItems}
+			{total}
 			on:update={({ detail }) => {
 				page_update(detail.page);
 			}}
-			{results}
+			{documents}
 			{page}
 		/>
 	{:else if !loading}

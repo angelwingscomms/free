@@ -30,14 +30,4 @@ export class EscapedEmail {
 export type V = number[];
 
 export type { SearchResponse } from './SearchResponse';
-export type {
-	Post,
-	UserPayment,
-	Payment,
-	PostEdit,
-	EditablePost,
-	PostSearchDocument,
-	PostItem,
-	Edit
-} from './post';
 export type {SearchDocument} from './SearchResponse'

@@ -3,15 +3,14 @@ import type { SearchOptions } from 'redis';
 import { client } from '.';
 import type { Filters } from '$lib/types/filter';
 import { slim } from '$lib/util/redis/shape/slim';
-import type { SearchDocumentValue } from '$lib/types';
+import type { SearchDocument, SearchDocumentValue } from '$lib/types';
 export interface SearchParams {
 	index: string;
-	page: number | null;
+	page: number | undefined;
 	filters?: Filters;
 	count?: boolean;
 	query?: string;
-	RETURN?: string[];
-	OPTIONS?: SearchOptions;
+	options?: SearchOptions;
 	B?: Buffer;
 }
 
@@ -20,15 +19,11 @@ export const search = async ({
 	page,
 	filters,
 	count,
-	RETURN,
-	OPTIONS,
+	options = {},
 	B,
-	query = ''
+	query = filters ? '' : '*'
 }: SearchParams) => {
-	const options: SearchOptions = {
-		RETURN,
-		DIALECT: 3
-	};
+	options.DIALECT = 3
 
 	if (count) {
 		options.LIMIT = { from: 0, size: 0 };
@@ -72,11 +67,10 @@ export const search = async ({
 		// };
 	}
 
-	console.log('query', query);
-	const res = await client.ft.search(index, query, { ...options, ...OPTIONS });
+	const res = await client.ft.search(index, query, options);
 	res.documents = res.documents.map((r) => {
 		r.value = slim(r.value, true) as SearchDocumentValue;
 		return r;
-	});
+	}) as SearchDocument[];
 	return { ...res, page };
 };

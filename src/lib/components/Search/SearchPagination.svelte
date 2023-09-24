@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { PostSearchDocument } from '$lib/types';
+	import type { SearchDocument } from '$lib/types';
 	import { Loading, Pagination } from 'carbon-components-svelte';
-	import Results from './Results.svelte';
 	import { items_per_page } from '$lib/constants';
+	import Document from './Document.svelte';
 
 	export let page: number = 1,
-		totalItems: number,
-		results: PostSearchDocument[];
+		total: number,
+		documents: SearchDocument[];
 
 	let loading = false;
 </script>
@@ -14,9 +14,11 @@
 {#if loading}
 	<Loading />
 {:else}
-	<Results {results} />
+	{#each documents as document}
+		<Document on:click {document} />
+	{/each}
 {/if}
 
-{#if totalItems > items_per_page}
-	<Pagination on:update pageSizeInputDisabled pageSize={7} {totalItems} {page} />
+{#if total > items_per_page}
+	<Pagination on:update pageSizeInputDisabled pageSize={7} totalItems={total} {page} />
 {/if}

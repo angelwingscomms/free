@@ -14,7 +14,7 @@
 		try {
 			await navigator.clipboard.writeText(text);
 		} catch (e) {
-			console.log(e);
+			console.error(e);
 		}
 	};
 
