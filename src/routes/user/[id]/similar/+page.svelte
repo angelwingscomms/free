@@ -5,4 +5,4 @@
 </script>
 
 <p>Similar users to {data.name ? data.name : `user ${data.id}`}</p>
-<SearchPagination documents={data.d} />
+<SearchPagination route='user' documents={data.d} />
