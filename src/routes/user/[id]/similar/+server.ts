@@ -7,8 +7,16 @@ import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ params }) => {
 	if (!(await client.exists(params.id))) throw error(404, `User with id ${params.id} not found`);
-	const v_ = (await client.json.get(params.id, { path: '$.v' })) as Array<number[]>;
-    console.log('v_', v_);
-    const res = await search({ index: user_index, page: 1, B: float32_buffer(v_[0]) });
-	return json(res.documents);
+	return json(
+		(
+			await search({
+				index: user_index,
+				page: 1,
+				B: float32_buffer(
+					((await client.json.get(params.id, { path: '$.v' })) as Array<number[]>)[0]
+				),
+				options: { RETURN: ['name'] }
+			})
+		).documents
+	);
 };

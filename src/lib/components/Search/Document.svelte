@@ -1,13 +1,10 @@
 <script lang="ts">
 	import type { SearchDocument } from '$lib/types';
-	import { Button, Link } from 'carbon-components-svelte';
-	import { createEventDispatcher } from 'svelte';
+	import { Button } from 'carbon-components-svelte';
 
-	export let document: SearchDocument;
-
-	const dispatch = createEventDispatcher<{ click: string }>();
+	export let route: string, document: SearchDocument;
 </script>
 
-<Button kind="ghost" on:click={() => dispatch('click', document.id)}
+<Button kind="ghost" href="/{route}/{document.id}"
 	>~ {document.value.name ?? ''}</Button
 >

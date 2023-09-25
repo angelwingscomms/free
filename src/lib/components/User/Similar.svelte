@@ -4,4 +4,4 @@
     export let documents: SearchDocument[]
 
 </script>
-<SearchPagination {documents} />
+<SearchPagination route='/user' {documents} />
