@@ -2,6 +2,15 @@
 	import { Button, Row, Column, Modal } from 'carbon-components-svelte';
 	import { page } from '$app/stores';
 	import Search from '$lib/components/Search/Search.svelte';
+	import type { Snapshot } from './$types';
+	import type { SearchDocument } from '$lib/types';
+
+	let documents: SearchDocument[], text: string;
+
+	export const snapshot: Snapshot = {
+		capture: () => ({ documents, text }),
+		restore: (v) => ({ documents, text } = v)
+	};
 </script>
 
 <Row>
@@ -12,7 +21,7 @@
 			{:else}
 				<Button size="small" href="/auth">Login</Button>
 			{/if}
-			<Search placeholder="Search users" route="user" />
+			<Search bind:documents bind:text placeholder="Search users" route="user" />
 		</div>
 	</Column>
 </Row>

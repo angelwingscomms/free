@@ -13,9 +13,9 @@
 		text = '',
 		route: string,
 		placeholder: string,
-		total: number = 0;
-	let loading = false,
+		total: number = 0,
 		documents: SearchDocument[] = [],
+		loading = false,
 		page: number = 1;
 
 	$: page_update(page);
