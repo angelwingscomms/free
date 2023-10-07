@@ -1,29 +1,46 @@
-<script lang="ts">
-	import { Button, Row, Column } from 'carbon-components-svelte';
-	import Search from '$lib/components/Search/Search.svelte';
-	import type { Snapshot } from './$types';
-	import type { SearchDocument } from '$lib/types';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
 
-	let documents: SearchDocument[], text: string, searched: boolean;
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
 
-	export const snapshot: Snapshot = {
-		capture: () => ({ documents, text, searched }),
-		restore: (v) => ({ documents, text, searched } = v)
-	};
-</script>
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 5px;
+        }
 
-<Row>
-	<Column>
-		<div class="all">
-			<Button kind="ghost" size="small" href="/edit">Edit</Button>
-			<Search bind:searched bind:documents bind:text placeholder="Search users" route="user" />
-		</div>
-	</Column>
-</Row>
-
-<style lang="sass">
-	.all
-		display: flex
-		flex-direction: column
-		row-gap: 1rem
-</style>
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to our website</h1>
+        <p>Please log in or sign up</p>
+        <a href="/login" class="button">Log In</a>
+        <a href="/signup" class="button">Sign Up</a>
+    </div>
+</body>
+</html>
