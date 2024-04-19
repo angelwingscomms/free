@@ -12,7 +12,7 @@
 		text = '',
 		route: string,
 		f: string,
-		open = false,
+		// open = false,
 		old_search: null | string = null,
 		placeholder: string,
 		total: number = 0,

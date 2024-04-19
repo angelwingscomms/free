@@ -16,7 +16,6 @@ _learn
     how typescript extends works
     what a boolean looks like in a stored redis json value and how to filter by it in ft.search
     what happens - redis - get - multiple paths
-    paystack charge.success event body.data.paid_at value
     redis precise millisecond
     redis - how to filter by a boolean value in a JSON
     how to index keys of a json object as tags in Redis

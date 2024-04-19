@@ -111,7 +111,6 @@
 		<div class="all">
 			{#if $page.data.user}
 				<Input
-					{route}
 					on:send={send}
 					bind:search_open
 					bind:send_on_enter
@@ -120,7 +119,6 @@
 					bind:loading
 					bind:content_error
 					bind:content_error_text
-					bind:more_open
 					bind:text
 					bind:message_input_ref
 				/>

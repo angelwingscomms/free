@@ -12,10 +12,9 @@
 	export let // run: (m: ChatCompletionUserMessageParam) => void,
 	
 		success: boolean,
-		more_open: boolean,
+		// more_open: boolean,
 		can_send: boolean,
 		search_open = false,
-		route: string,
 		send_on_enter: boolean,
 		loading: boolean,
 		content_error: boolean,
