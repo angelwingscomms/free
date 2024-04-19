@@ -1,4 +1,4 @@
-import { message_index, top_level_messages_name } from '$lib/constants';
+import { index, top_level_messages_name } from '$lib/constants';
 import { type Message } from '$lib/types/message';
 import { client } from '$lib/util/redis';
 import { search } from '$lib/util/redis/search';
@@ -6,7 +6,7 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
 	const res = await search<Message>({
-		index: message_index,
+		index: index,
 		query: `@t: ${top_level_messages_name}`,
 		options: {
 			RETURN: ['f', 'd', 'h'],

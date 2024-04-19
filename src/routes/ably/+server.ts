@@ -4,7 +4,7 @@ import type { RequestHandler } from './$types';
 import { ABLY } from '$env/static/private';
 import { handle_server_error } from '$lib/util/handle_server_error';
 import { ably } from '$lib/util/ably';
-import { message_index } from '$lib/constants';
+import { index } from '$lib/constants';
 import { message_name } from '$lib/util/chat/message_name';
 
 export const GET: RequestHandler = async ({ locals, request, url }) => {
@@ -12,11 +12,13 @@ export const GET: RequestHandler = async ({ locals, request, url }) => {
 		if (!locals.user) throw error(401);
 		const id = url.searchParams.get('i');
 		if (!id) throw error(400, 'id query param required');
-		const capability_key = `${message_index}:${message_name(locals.user, id)}`;
-		return json(await ably.auth.createTokenRequest({
-			// capability: { [capability_key]: ['subscribe'] },
-			clientId: locals.user
-		}));
+		const capability_key = `${index}:${message_name(locals.user, id)}`;
+		return json(
+			await ably.auth.createTokenRequest({
+				// capability: { [capability_key]: ['subscribe'] },
+				clientId: locals.user
+			})
+		);
 		// const [keyid, key_secret] = ABLY.split('.');
 		// console.debug('sas ably');
 		// const res = jwt.sign(

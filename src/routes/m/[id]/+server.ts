@@ -1,5 +1,5 @@
 import * as tf from '@tensorflow/tfjs';
-import { message_id_prefix, message_index } from '$lib/constants';
+import { id_prefix, index } from '$lib/constants';
 import { message_channel } from '$lib/util/ably';
 import { message_name } from '$lib/util/chat/message_name';
 import { embed, embed_to_buffer } from '$lib/util/embedding/embed';
@@ -20,7 +20,7 @@ export const GET: RequestHandler = async ({ url, params, request }) => {
 		const query_embedding = await embed(q);
 		const B = await embed_to_buffer(q);
 		const res = await search<Message & { s: string; v?: V }>({
-			index: message_index,
+			index: index,
 			query: `@t:"${params.id}"`,
 			B,
 			page,
@@ -55,7 +55,7 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
 			f: locals.user,
 			t: params.id
 		};
-		const id = `${message_id_prefix}${await client.incr('last_free_message_id')}`;
+		const id = `${id_prefix}${await client.incr('last_free_message_id')}`;
 		await client.json.set(id, '$', message);
 		const event = {
 			id,
@@ -65,7 +65,7 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
 				cl: (await client.json.get(locals.user, { path: 'cl' })) as string
 			}
 		};
-		message_channel.publish("e", event);
+		message_channel.publish('e', event);
 		message_channel.publish(params.id, event);
 		message_channel.publish(locals.user, event);
 		message_channel.publish(message_name(params.id, locals.user), event);

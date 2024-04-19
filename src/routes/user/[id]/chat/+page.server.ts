@@ -1,4 +1,4 @@
-import { message_index } from '$lib/constants';
+import { index } from '$lib/constants';
 import { type Message } from '$lib/types/message';
 import { client } from '$lib/util/redis';
 import { search } from '$lib/util/redis/search';
@@ -8,7 +8,7 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ params, locals }) => {
 	if (!(await client.exists(params.id))) throw error(404, 'User not found');
 	const res = await search<Message>({
-		index: message_index,
+		index: index,
 		query: `@f:"${locals.user}" @t:"${params.id}"  | @f:"${params.id}" @t:"${locals.user}"`,
 		options: {
 			RETURN: ['f', 't', 'd', 'h'],

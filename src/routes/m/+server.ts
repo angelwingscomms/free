@@ -1,5 +1,5 @@
 import * as tf from '@tensorflow/tfjs';
-import { message_id_prefix, message_index, top_level_messages_name } from '$lib/constants';
+import { id_prefix, index, top_level_messages_name } from '$lib/constants';
 import type { V } from '$lib/types';
 import type { Message } from '$lib/types/message';
 import { message_channel } from '$lib/util/ably';
@@ -10,6 +10,7 @@ import { client } from '$lib/util/redis';
 import { search } from '$lib/util/redis/search';
 import type { RequestHandler } from './$types';
 import { json } from '@sveltejs/kit';
+import { get_id } from '$lib/util/get_id';
 
 export const GET: RequestHandler = async ({ url, request }) => {
 	try {
@@ -17,11 +18,11 @@ export const GET: RequestHandler = async ({ url, request }) => {
 		if (isNaN(page)) page = 0;
 		const q = url.searchParams.get('q') || '';
 		const t = url.searchParams.get('t') || '';
-		console.debug('page, t', page, t)
+		console.debug('page, t', page, t);
 		const query_embedding = await embed(q);
 		const B = await embed_to_buffer(q);
 		const res = await search<Message & { s: string; v?: V }>({
-			index: message_index,
+			index: index,
 			query: `@t: ${top_level_messages_name}`,
 			// ...(t && { query: `@t:${top_level_messages_name}` }),
 			B,
@@ -30,7 +31,7 @@ export const GET: RequestHandler = async ({ url, request }) => {
 				RETURN: ['f', 'd', 'h', 'v']
 			}
 		});
-		console.debug('mt', res.total)
+		console.debug('mt', res.total);
 		res.documents = await Promise.all(
 			res.documents.map(async (m) => {
 				m.value.s = (
@@ -57,7 +58,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 			f: locals.user,
 			t: 't'
 		};
-		const id = `${message_id_prefix}${await client.incr('last_free_message_id')}`;
+		const id = await get_id();
 		await client.json.set(id, '$', message);
 		const event = {
 			id,

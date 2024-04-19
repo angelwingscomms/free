@@ -1,4 +1,4 @@
-import { message_index } from '$lib/constants';
+import { index } from '$lib/constants';
 import { type Message } from '$lib/types/message';
 import { client } from '$lib/util/redis';
 import { search } from '$lib/util/redis/search';
@@ -14,7 +14,7 @@ export const load: PageServerLoad = async ({ params, request }) => {
 			f: string;
 		};
 		const res = await search<Message>({
-			index: message_index,
+			index: index,
 			query: `@t:"${params.id}"`,
 			options: {
 				RETURN: ['f', 'd', 'h'],

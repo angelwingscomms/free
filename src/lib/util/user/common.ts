@@ -5,7 +5,7 @@ export const common = async (t: string[]): Promise<string> => {
 		messages: [
 			{
 				role: 'user',
-				content: `what do the following user profiles have in common? ${JSON.stringify(t)}`
+				content: `what do the following user descriptions have in common? ${JSON.stringify(t)}`
 			}
 		],
 		model: 'mixtral-8x7b-32768'

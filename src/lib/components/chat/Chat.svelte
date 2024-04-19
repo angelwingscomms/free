@@ -3,7 +3,7 @@
 	import axios from 'axios';
 	import ably from 'ably';
 	import { message_index } from '$lib/constants';
-	import { onMount } from 'svelte';
+	iindexnt } from 'svelte';
 	import { to_html } from '$lib/util/markdown/parse';
 	import { page } from '$app/stores';
 	import { v4 } from 'uuid';
@@ -22,8 +22,7 @@
 
 		// realtime.connection.once('connected', () => {
 
-		// })
-
+		// })index
 		channel.subscribe(name, (m) => {
 			console.debug('got --', m)
 			messages = [m.data, ...messages];

@@ -1,13 +1,13 @@
 export const items_per_page = 7;
-export const message_index = 'free_message';
-export const message_id_prefix = 'free_message_';
+export const index = 'i';
+export const id_prefix = 'i_';
 export const room_index = 'room';
 export const room_id_prefix = 'room_';
 export const replies_index_name = 'replies';
 export const replied_index_name = 'replied';
 export const posts_index_name = 'post';
-export const top_level_messages_name = "t";
-export const protected_routes = [/\/edit/, /\/user\/\w+\/chat/];
+export const top_level_messages_name = 't';
+export const protected_routes = [/\/edit/, /\/user\/\w+\/chat/, /\/a\/w+\/join/];
 export const embedding_model = 'text-embedding-3-large';
 export const embedding_field_name = 'v';
 export const ids_hash = 'ids';

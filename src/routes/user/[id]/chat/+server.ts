@@ -1,4 +1,4 @@
-import { message_id_prefix } from '$lib/constants';
+import { id_prefix } from '$lib/constants';
 import { message_channel } from '$lib/util/ably';
 import { message_name } from '$lib/util/chat/message_name';
 import { handle_server_error } from '$lib/util/handle_server_error';
@@ -13,7 +13,7 @@ export const POST: RequestHandler = async ({ request, params, locals }) => {
 			f: locals.user,
 			t: params.id
 		};
-		const id = `${message_id_prefix}${await client.incr('last_free_message_id')}`;
+		const id = `${id_prefix}${await client.incr('last_free_message_id')}`;
 		await client.json.set(id, '$', message);
 		message_channel.publish(message_name(params.id, locals.user), {
 			id,
