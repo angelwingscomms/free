@@ -23,6 +23,11 @@ _learn
     goto previous page in load function
     goto previous page in component
     javascript disabled
+
+wg
+    add link
+    join
+    get summary
 todo
     tests
         send message to t

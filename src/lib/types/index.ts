@@ -27,7 +27,7 @@ export class EscapedEmail {
 	}
 }
 
-export type V = number[];
+export type V = number[]; //embedding
 
 export type { SearchResponse } from './SearchResponse';
 export type {SearchDocument} from './SearchResponse'

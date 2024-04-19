@@ -79,9 +79,9 @@
 	<TextArea labelText="Contact details" helperText="You can paste links to your socials here" bind:value={contact} rows={3} />
 	<TextArea
 		rows={15}
-		labelText="Bio"
+		labelText="List your likes and dislikes, interests and hobbies and favorite stuff, like favorite movies, music and TV shows"
 		helperText="you can create a description of yourself with a lot of detail to allow people find you easily"
-		placeholder="you can describe yourself in detail, asl, your likes and dislikes your personality, your hobbies, likes and dislikes, your experiences..."
+		placeholder="you can describe yourself in detail, asl, your likes and dislikes your personality, your beliefs, your hobbies, likes and dislikes, your experiences..."
 		invalid={text_invalid}
 		invalidText={text_invalid_text}
 		bind:value={text}

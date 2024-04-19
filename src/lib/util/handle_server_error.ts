@@ -5,7 +5,7 @@ interface CustomError {
 	message: string;
 }
 
-export const handle_server_error = (m: string | Request, e: unknown) => {
+export const 	handle_server_error = (m: string | Request, e: unknown) => {
 	console.error('--server-error');
 	let r: string;
 	if (typeof m === 'string') {
