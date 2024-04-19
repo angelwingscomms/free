@@ -11,6 +11,7 @@
 <SideNav bind:isOpen={$isSideNavOpen}>
 	<SideNavItems>
 		{#if $page.data.user}
+			<SideNavLink text="WhatsApp groups" href="/wg" />
 			<SideNavLink text="profile" href="/user/{$page.data.user}" />
 			<SideNavLink text="users similar to you" href="/user/{$page.data.user}/similar" />
 		{/if}
