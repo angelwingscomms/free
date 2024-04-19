@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { notify } from '$lib/util/notify';
-	import { parse } from 'marked';
-	import { Button, ContextMenu, ContextMenuOption, CopyButton } from 'carbon-components-svelte';
+	import { Button, ContextMenu, ContextMenuOption, CopyButton, truncate } from 'carbon-components-svelte';
 	import Copy from 'carbon-icons-svelte/lib/Copy.svelte';
 	import { TrashCan } from 'carbon-icons-svelte';
 	import { createEventDispatcher } from 'svelte';
-	import type { Message } from './types';
-	export let message: Message,
+	import type { Message } from '$lib/types/message';
+	import type { SearchDocument } from '$lib/types';
+	export let message: SearchDocument<Message>,
+		u: string;
 		// hide_system_messages = false,
-		show = message.role !== 'system';
+		// show = true
+	// show = message.role !== 'system';
 	// ? true
 	// : message.role === 'system' &&
 	//   !hide_system_messages
@@ -21,10 +23,10 @@
 	const dispatch = createEventDispatcher();
 
 	const copy = () => {
-		if (message.content)
-			navigator.clipboard.writeText(message.role === 'user' ? message.content : message.content).then(() => {
+		if (message.value.c)
+			navigator.clipboard.writeText(message.value.c).then(() => {
 				notify({
-					title: 'Copied to clipboard',
+					title: 'message copied to clipboard',
 					timeout: 1300
 				});
 			});
@@ -42,42 +44,44 @@
 	/>
 </ContextMenu> -->
 
-{#if show && message.content != null}
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div class="a">
-		<div
-			bind:this={target}
-			on:click={() => (menu_open = true)}
-			on:keydown={() => (menu_open = true)}
-			class="message"
-			class:user={message.role === 'user'}
-			class:assistant={message.role === 'assistant'}
-		>
-			<p class="content">
-				{#if message.role === 'user'}
-					{message.content}
-					<!-- {message.content[0].text} -->
-				{:else}
-					{@html parse(message.content)}
-				{/if}
-			</p>
-		</div>
-		<Button iconDescription="Copy" icon={Copy} on:click={copy} size="small" kind="ghost" />
-		<Button iconDescription="Copy" icon={TrashCan} on:click={() => dispatch('delete_message', message.id)} size="small" kind="ghost" />
+<!-- {#if show && message.value.c != null} -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<a href="/m/{message.id}" class="a">
+	<div
+		bind:this={target}
+		on:click={() => (menu_open = true)}
+		on:keydown={() => (menu_open = true)}
+		style="background-color: {message.value.cl}"
+		class="message"
+		class:user={message.value.f === u}
+		class:r={message.value.t !== u}
+	>
+		<p class="username">{message.value.uf}</p>
+		<p use:truncate class="content">
+			{@html message.value.h}
+		</p>
 	</div>
-{/if}
+	<Button iconDescription="Copy" icon={Copy} on:click={copy} size="small" kind="ghost" />
+	<!-- <Button iconDescription="Copy" icon={TrashCan} on:click={() => dispatch('delete_message', message.id)} size="small" kind="ghost" /> -->
+</a>
+
+<!-- {/if} -->
 
 <style lang="sass">
 	@use '@carbon/type'
 	@use '@carbon/colors'
 	@use '@carbon/themes'
-	@use '@carbon/layout'
 
 	.a
 		display: flex
 		flex-direction: row
-		column-gap: layout.$spacing-05
+		column-gap: 1rem
+		color: white
+		text-decoration: none
 		// max-width: 100%
+
+	.username
+		@include type.type-style('label-01')
 
 	.message
 		white-space: pre-wrap
@@ -90,9 +94,10 @@
 		align-self: flex-end
 		background-color: themes.$field-01
 
-	.assistant
+	.r
 		background-color: colors.$blue-60
 
 	.content
+		color: white !important
 		@include type.type-style('body-01')
 </style>

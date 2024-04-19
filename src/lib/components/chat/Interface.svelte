@@ -1,34 +1,27 @@
 <script lang="ts">
-	export let messages: _Message[] = [],
+	export let messages: SearchDocument<_Message>[] = [],
+		u: string,
 		text = '',
-		name = 'Partner',
-		name_label = 'Name',
-		parameters: ChatCompletionCreateParamsNonStreaming = {
-			// tools: [{
-			// 	type: 'function',
-			// 	function: {
-			// 		name: "create_image",
-			// 		description: "Create an image with DALL·E 3",
-			// 		parameters: {
-			// 			type: 'string',
-			// 		}
-			// 	}
-			// }],
-			model: 'mixtral-8x7b-32768',
-			messages: []
-		},
+		// name = 'Partner',
+		// name_label = 'Name',
+		// used to indicate when the last message has been succesfully sent
 		success: boolean,
-		chat_container: HTMLElement | null = null,
+		search_open = false,
+		chat_container: HTMLElement | undefined = undefined,
 		restart_modal = false,
-		hide_parameters = false,
-		show_name_edit = false,
-		disable_description_edit = false,
+		route: string,
+		// hide_parameters = false,
+		// show_name_edit = false,
+		// disable_description_edit = false,
+		// description = '',
 		more_open = false,
-		description_label = 'Description',
-		description_error_text = 'You may not send messages without setting description',
-		send_without_content = false,
-		send_without_description = false,
+		// search_modal = false,
+		// description_label = 'Description',
+		// description_error_text = 'You may not send messages without setting description',
+		// send_without_content = false,
+		// send_without_description = false,
 		content_error = false,
+		send_on_enter: boolean,
 		content_error_text = 'You may not send an empty message',
 		message_input_ref: HTMLTextAreaElement,
 		// run: (m: ChatCompletionUserMessageParam) => void,
@@ -37,39 +30,37 @@
 	import { Button, InlineLoading, TextArea, Modal, Row, Column } from 'carbon-components-svelte';
 	import { onMount } from 'svelte';
 	import Message from './Message.svelte';
-	import { type Message as _Message } from './types';
+	import { type Message as _Message } from '$lib/types/message';
 	import Input from './Input.svelte';
 	import { createEventDispatcher } from 'svelte';
-	import More from './More.svelte';
-	import { send_on_enter } from './store';
-	import type { ChatCompletionCreateParamsNonStreaming, CompletionCreateParams } from 'groq-sdk/resources/chat/completions.mjs';
+	import type { SearchDocument } from '$lib/types';
+	import { page } from '$app/stores';
+	import Search from '../Search/Search.svelte';
+	// import More from './More.svelte';
 
 	const dispatch = createEventDispatcher();
 
 	$: can_send = !loading;
 
 	onMount(() => {
-		height = `${(window.innerHeight * 79) / 100}px`;
 		message_input_ref.classList.add('no-scrollbar');
 	});
 
-	let height = '670px',
-		// id = v4(),
-		description_error = false;
+	let description_error = false;
 
-	const delete_message = (id: number) => {
-		messages = [...messages.filter((m) => m.id !== id)];
-	};
+	// const delete_message = (id: number) => {
+	// 	messages = [...messages.filter((m) => m.id !== id)];
+	// };
 
-	const send = async ({ detail }: { detail: CompletionCreateParams.Message }) => {
-		if (!send_without_description && !parameters.messages[0].content) {
-			description_error = true;
-			dispatch('send_attempt_without_description');
-			return;
-		} else if (!send_without_content && !text) {
-			content_error = true;
-			return;
-		}
+	const send = async ({ detail }: { detail: { c: string; d: number } }) => {
+		// if (!send_without_description && !description) {
+		// 	description_error = true;
+		// 	dispatch('send_attempt_without_description');
+		// 	return;
+		// } else if (!send_without_content && !text) {
+		// 	content_error = true;
+		// 	return;
+		// }
 		dispatch('send', detail);
 		// run(m)
 	};
@@ -95,39 +86,51 @@
 	<!-- </ButtonSet> -->
 </Modal>
 
-<More
+<Modal bind:open={search_open} passiveModal hasForm hasScrollingContent>
+	<Search placeholder="Search" f="h" {route} />
+</Modal>
+
+<!-- <More
 	bind:open={more_open}
 	bind:restart_modal
 	{name_label}
 	{show_name_edit}
 	{hide_parameters}
+	bind:send_on_enter
 	bind:name
 	{description_label}
 	{description_error}
 	{description_error_text}
 	{disable_description_edit}
+	bind:description
 	bind:parameters
-/>
+/> -->
 
 <Row>
 	<Column>
-		<div style={`height: calc(100vh - 7rem)`} class="all">
+		<div class="all">
+			{#if $page.data.user}
+				<Input
+					{route}
+					on:send={send}
+					bind:search_open
+					bind:send_on_enter
+					bind:success
+					bind:can_send
+					bind:loading
+					bind:content_error
+					bind:content_error_text
+					bind:more_open
+					bind:text
+					bind:message_input_ref
+				/>
+			{/if}
 			<div bind:this={chat_container} class="messages">
 				{#each messages as message}
-					<Message on:delete_message={({ detail }) => delete_message(detail)} {message} />
+					<Message {u} {message} />
+					<!-- <Message {u} on:delete_message={({ detail }) => delete_message(detail)} {message} /> -->
 				{/each}
 			</div>
-			<Input
-				on:send={send}
-				bind:success
-				bind:can_send
-				bind:loading
-				bind:content_error
-				bind:content_error_text
-				bind:more_open
-				bind:text
-				bind:message_input_ref
-			/>
 		</div>
 	</Column>
 </Row>
@@ -143,7 +146,6 @@
 		display: flex
 		flex-grow: 2
 		flex-direction: column
-		height: 100%
 		width: 100%
 		overflow-y: scroll
 		row-gap: 1rem
