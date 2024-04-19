@@ -6,5 +6,5 @@ import type { RequestHandler } from './$types';
 export const GET: RequestHandler = async ({ params }) => {
 	const id = await get_id();
 	await client.json.set(id, '$', { n: params.n, u: [] });
-	throw redirect(302, `/a/${id}`)
+	throw redirect(302, `/i/${id}`);
 };
