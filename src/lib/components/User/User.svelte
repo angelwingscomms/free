@@ -19,7 +19,7 @@
 		<div class="section">
 			<p class="top">This profile is {s.s}% similar to yours</p>
 			<div>You and this user have the following in common</div>
-			{s.t}
+			{s.a}
 		</div>
 	{/if}
 
