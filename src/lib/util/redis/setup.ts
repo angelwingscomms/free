@@ -56,9 +56,9 @@ export const setup = async () => {
 		console.error(`redis create ${index} error:`, e);
 	}
 
-	// create message_index
+	// create index
 	try {
-		// const res = await search({ index: message_index, query: `@t:"all"` });
+		// const res = await search({ index: index, query: `@t:"all"` });
 		// console.info('rrsd', res.total)
 		// res.documents.forEach((d) => {
 		// 	client.json.set(d.id, '$.t', 't');

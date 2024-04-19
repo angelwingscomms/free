@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import Edit from 'carbon-icons-svelte/lib/Edit.svelte';
 	import ArrowRight from 'carbon-icons-svelte/lib/ArrowRight.svelte';
-	export let s: {s: number | undefined, a: string}, u: string, h: string | undefined, id: string, ch: string;
+	export let s: {s: number | undefined, a: string} | undefined, u: string, h: string | undefined, id: string, ch: string;
 	let self = $page.data.user === id;
 </script>
 

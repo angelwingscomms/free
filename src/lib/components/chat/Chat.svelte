@@ -2,8 +2,8 @@
 	import Interface from '$lib/components/chat/Interface.svelte';
 	import axios from 'axios';
 	import ably from 'ably';
-	import { message_index } from '$lib/constants';
-	iindexnt } from 'svelte';
+	import { index } from '$lib/constants';
+	import { onMount } from 'svelte';
 	import { to_html } from '$lib/util/markdown/parse';
 	import { page } from '$app/stores';
 	import { v4 } from 'uuid';
@@ -18,13 +18,14 @@
 	onMount(async () => {
 		const realtime = new ably.Realtime({ authUrl: `/ably?i=${$page.data.id}` });
 		// realtime.auth.requestToken((await axios.get(`/ably?i=${$page.data.id}`)).data);
-		const channel = realtime.channels.get(message_index);
+		const channel = realtime.channels.get(index);
 
 		// realtime.connection.once('connected', () => {
 
-		// })index
+		// })
+
 		channel.subscribe(name, (m) => {
-			console.debug('got --', m)
+			console.debug('got --', m);
 			messages = [m.data, ...messages];
 		});
 	});
